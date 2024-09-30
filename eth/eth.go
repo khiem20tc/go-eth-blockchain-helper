@@ -185,3 +185,29 @@ func ReadFunc(client *ethclient.Client, ABI string, SCaddress common.Address, fu
 
 	return result, nil
 }
+
+func ReadFuncAtBlock(client *ethclient.Client, ABI string, SCaddress common.Address, funcName string, params []interface{}, blockNumber *big.Int) ([]byte, error) {
+
+	contract, err := abi.JSON(strings.NewReader(ABI))
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := contract.Pack(funcName, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	msg := ethereum.CallMsg{
+		To:   &SCaddress,
+		Data: data,
+	}
+
+	result, err := client.CallContract(context.Background(), msg, blockNumber)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return nil, err
+	}
+
+	return result, nil
+}

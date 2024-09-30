@@ -2,7 +2,10 @@ module go-eth-blockchain-helper
 
 go 1.18
 
-require github.com/ethereum/go-ethereum v1.13.4
+require (
+	github.com/ethereum/go-ethereum v1.13.4
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	github.com/Microsoft/go-winio v0.6.1 // indirect
