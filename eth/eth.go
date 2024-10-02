@@ -211,3 +211,24 @@ func ReadFuncAtBlock(client *ethclient.Client, ABI string, SCaddress common.Addr
 
 	return result, nil
 }
+
+func DecodeData(ABI string, funcName string, data []byte) ([]interface{}, error) {
+
+	// Parse the contract ABI
+	contract, err := abi.JSON(strings.NewReader(ABI))
+	if err != nil {
+		log.Fatalf("Failed to parse ABI: %v", err)
+	}
+
+	method, ok := contract.Methods[funcName]
+	if !ok {
+		return nil, fmt.Errorf("method not found in ABI")
+	}
+
+	output, err := method.Outputs.UnpackValues(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return output, nil
+}
