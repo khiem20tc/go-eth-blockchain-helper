@@ -9,8 +9,8 @@ import (
 
 var client *ethclient.Client
 
-func ConnectSepolia() {
-	client = ConnectRPCEndpoint("https://ethereum-goerli.publicnode.com	")
+func ConnectRPC() {
+	client = ConnectRPCEndpoint("https://bsc-dataseed1.bnbchain.org")
 }
 
 func GetBalanceETHByAddr(address string) (*big.Int, error) {
@@ -22,7 +22,7 @@ func GetBalanceETHByAddr(address string) (*big.Int, error) {
 	return balance, nil
 }
 
-func GetBalanceERC20ByAddr(addr string, contractAddr string) (int64, error) {
+func GetBalanceERC20ByAddr(addr string, contractAddr string) (*big.Int, error) {
 
 	address := common.HexToAddress(addr)
 

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"math/big"
-	"strconv"
 	"strings"
 
 	"github.com/ethereum/go-ethereum"
@@ -39,15 +38,17 @@ func VerifyAddress(address string) (bool, error) {
 
 // ERC-20 Token
 
-func CheckERC20Balance(client *ethclient.Client, tokenAddress common.Address, ownerAddress common.Address) (int64, error) {
+func CheckERC20Balance(client *ethclient.Client, tokenAddress common.Address, ownerAddress common.Address) (*big.Int, error) {
 
 	balance, err := ReadFunc(client, erc20ABIString, tokenAddress, "balanceOf", []interface{}{ownerAddress})
 	balanceStr := hex.EncodeToString(balance)
 
 	// Convert hexadecimal string to decimal
-	decimalValue, err := strconv.ParseInt(balanceStr, 16, 64)
-	if err != nil {
-		fmt.Println("Error converting to decimal:", err)
+	decimalValue := new(big.Int)
+	_, success := decimalValue.SetString(balanceStr, 16) // Base 16 for hexadecimal
+
+	if !success {
+		return nil, fmt.Errorf("failed to convert hex string to big.Int")
 	}
 
 	return decimalValue, err
