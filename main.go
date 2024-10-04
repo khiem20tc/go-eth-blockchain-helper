@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	eth.ConnectRPC()
+	eth.ConnectRPC("https://bsc-dataseed.binance.org")
 
 	// Get ETH balance by address
 	ethBalance, err := eth.GetBalanceETHByAddr("0xa180fe01b906a1be37be6c534a3300785b20d947")

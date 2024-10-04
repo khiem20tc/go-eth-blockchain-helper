@@ -7,17 +7,17 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-var client *ethclient.Client
+var Client *ethclient.Client
 
-func ConnectRPC() {
-	client = ConnectRPCEndpoint("https://bsc-dataseed1.bnbchain.org")
+func ConnectRPC(rpc string) {
+	Client = ConnectRPCEndpoint(rpc)
 }
 
 func GetBalanceETHByAddr(address string) (*big.Int, error) {
 
 	addr := common.HexToAddress(address)
 
-	balance, _ := CheckBalance(client, addr)
+	balance, _ := CheckBalance(Client, addr)
 
 	return balance, nil
 }
@@ -28,7 +28,7 @@ func GetBalanceERC20ByAddr(addr string, contractAddr string) (*big.Int, error) {
 
 	contractAddress := common.HexToAddress(contractAddr)
 
-	balance, _ := CheckERC20Balance(client, contractAddress, address)
+	balance, _ := CheckERC20Balance(Client, contractAddress, address)
 
 	return balance, nil
 }
